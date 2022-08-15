@@ -1,12 +1,16 @@
 package br.com.alura.forum.modelo;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+//userDetails explica para o Spring que essa classe representa o nosso usuario -> para fazer autenticacao
 @Entity
-public class Usuario {
+public class Usuario implements UserDetails {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,6 +18,10 @@ public class Usuario {
 	private String nome;
 	private String email;
 	private String senha;
+	//pefil com as permissoes de acesso desse usuario -> exemplo: aluno, administrador, professor...
+	//por padrao relacoes ToMany sao Lazy
+	@ManyToMany(fetch = FetchType.EAGER)
+	private List<Perfil> perfis = new ArrayList<>();
 
 	@Override
 	public int hashCode() {
@@ -76,4 +84,39 @@ public class Usuario {
 		this.senha = senha;
 	}
 
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return this.perfis;
+	}
+
+	@Override
+	public String getPassword() {
+		return this.senha;
+	}
+
+	@Override
+	public String getUsername() {
+		return this.email;
+	}
+
+	//caso a gente queira fazer o controle da conta do usuario podemos fazer verificacoes nesses metodos
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return true;
+	}
 }

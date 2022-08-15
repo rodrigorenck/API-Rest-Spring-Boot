@@ -16,8 +16,11 @@ import java.util.Optional;
 @Service
 public class CursoService {
 
-    @Autowired
-    private CursoRepository cursoRepository;
+    private final CursoRepository cursoRepository;
+
+    public CursoService(CursoRepository cursoRepository){
+        this.cursoRepository = cursoRepository;
+    }
 
     public List<Curso> listar(String nome) {
         if(nome == null){

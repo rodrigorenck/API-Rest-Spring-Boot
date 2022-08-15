@@ -7,29 +7,31 @@ import br.com.alura.forum.form.TopicoForm;
 import br.com.alura.forum.modelo.Topico;
 import br.com.alura.forum.repositories.CursoRepository;
 import br.com.alura.forum.repositories.TopicoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.util.List;
 import java.util.Optional;
 
 @Service
 public class TopicoService {
 
-    @Autowired
-    TopicoRepository topicoRepository;
-    @Autowired
-    CursoRepository cursoRepository;
+    private final TopicoRepository topicoRepository;
+    private final CursoRepository cursoRepository;
 
-    public List<TopicoDto> listar(String nomeCurso){
-        List<Topico> topicos;
+    public TopicoService(TopicoRepository topicoRepository, CursoRepository cursoRepository){
+        this.topicoRepository = topicoRepository;
+        this.cursoRepository = cursoRepository;
+    }
+
+    public Page<TopicoDto> listar(String nomeCurso, Pageable paginacao){
         if(nomeCurso == null) {
-            return TopicoDto.converter(topicoRepository.findAll());
+            return TopicoDto.converter(topicoRepository.findAll(paginacao));
         }
-         return TopicoDto.converter(topicoRepository.findByCursoNome(nomeCurso));
+         return TopicoDto.converter(topicoRepository.findByCursoNome(nomeCurso, paginacao));
     }
 
     public ResponseEntity<TopicoDto> cadastrar(TopicoForm form, UriComponentsBuilder uriBuilder){
