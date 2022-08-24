@@ -3,6 +3,7 @@ package br.com.alura.forum.config.security;
 import br.com.alura.forum.repositories.UsuarioRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -17,6 +18,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @EnableWebSecurity
 @Configuration
+//indicamos para qual ambiente eh para carregar essa classe
+@Profile(value = {"prod",  "test"})
 public class SecurityConfigurations {
 
     private final TokenService tokenService;
@@ -49,6 +52,8 @@ public class SecurityConfigurations {
                 .antMatchers(HttpMethod.GET, "/topicos").permitAll()
                 .antMatchers(HttpMethod.GET, "/topicos/*").permitAll()
                 .antMatchers(HttpMethod.POST, "/auth").permitAll()
+                //para executar esse endpoint nao basta estar autenticado, tem que ter o perfil de MODERADOR
+                .antMatchers(HttpMethod.DELETE, "/topicos/*").hasRole("MODERADOR")
                 //esse endpoint devolve info sensiveis entao quando fizer o deploy da app nao deve estar permitAll
                 .antMatchers(HttpMethod.GET, "/actuator/**").permitAll()
                 .antMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/**/api-docs").permitAll()

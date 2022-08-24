@@ -33,6 +33,12 @@ public class Usuario implements UserDetails {
 	public Usuario(String nome){
 		this.nome = nome;
 	}
+
+	public Usuario(String email, String senha){
+		this.email = email;
+		this.senha = senha;
+	}
+	@Deprecated
 	public Usuario(){}
 
 	@Override

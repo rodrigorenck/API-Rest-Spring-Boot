@@ -36,7 +36,7 @@ public class RespostaDto {
     }
 
     public static List<RespostaDto> converter(List<Resposta> resposta){
-        return resposta.stream().map(r -> new RespostaDto(r)).toList();
+        return resposta.stream().map(r -> new RespostaDto(r)).collect(Collectors.toList());
     }
 
 }

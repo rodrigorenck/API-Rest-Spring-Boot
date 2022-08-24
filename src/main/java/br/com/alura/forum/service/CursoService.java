@@ -10,6 +10,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,7 +28,7 @@ public class CursoService {
             return cursoRepository.findAll();
         }
         Optional<Curso> optionalCurso = cursoRepository.findByNome(nome);
-        return optionalCurso.map(List::of).orElseGet(ArrayList::new);
+        return optionalCurso.map(e -> Arrays.asList(e)).orElseGet(ArrayList::new);
         //        if(optionalCurso.isPresent()){
 //            return List.of(optionalCurso.get());
 //        }

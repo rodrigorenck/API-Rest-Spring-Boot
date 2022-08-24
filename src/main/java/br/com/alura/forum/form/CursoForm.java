@@ -1,11 +1,8 @@
 package br.com.alura.forum.form;
 
 import br.com.alura.forum.modelo.Curso;
-import br.com.alura.forum.modelo.Topico;
 import br.com.alura.forum.repositories.CursoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.Optional;
 
 public class CursoForm {
 
@@ -23,7 +20,7 @@ public class CursoForm {
     }
 
     public static Curso converter(CursoForm form){
-        return new Curso(form.nome, form.categoria);
+        return new Curso(form.nome);
     }
 
 }

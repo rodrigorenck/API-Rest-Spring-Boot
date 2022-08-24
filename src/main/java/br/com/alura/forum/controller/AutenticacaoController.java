@@ -3,7 +3,7 @@ package br.com.alura.forum.controller;
 import br.com.alura.forum.config.security.TokenService;
 import br.com.alura.forum.dto.TokenDto;
 import br.com.alura.forum.form.LoginForm;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,6 +18,8 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/auth")
+//podemos passar mais de um ambiente
+@Profile(value = {"prod", "test"})
 public class AutenticacaoController {
 
     private final AuthenticationManager authenticationManager;

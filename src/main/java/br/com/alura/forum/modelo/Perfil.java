@@ -12,7 +12,7 @@ public class Perfil implements GrantedAuthority {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    //nome do perfil -> aluno, admin, gerente...
+    //nome do perfil -> aluno, admin, moderador, gerente...
     private String nome;
 
     public Long getId() {
